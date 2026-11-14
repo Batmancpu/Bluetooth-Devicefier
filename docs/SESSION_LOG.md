@@ -114,3 +114,8 @@ User should attach both part files to the next coding agent. If the parts are to
 
 ## 2026-11-14 — Android installation failure investigation
 User reports "App not installed" without a readable screenshot or detailed Android installer code. Checked previously shipped file in container; APK SHA-256 matches recorded build, APK ZIP integrity clean, v2 APK Signature Block present (ID `0x7109871a`), and manifest contains expected application ID and Bluetooth permissions. Cannot conclude the failure cause from this alone; signer cryptographic verification and APK package compatibility check were added as mandatory CI steps. No Bluetooth device accessed or modified. Next: inspect CI verification and collect full installer dialog if failure persists.
+
+## 2026-11-14 — APK install validation passed in CI
+- GitHub Actions run 43621720479: successful Gradle tests and APK build; official Android apksigner (v2 true), zipalign and aapt badging all passed. Output has package io.github.batmancpu.watchprobe, minSdk 26, targetSdk 35. Artifact 14124885541.
+- Verified artifact ZIP and extracted app-debug.apk locally (9,510,840 bytes), SHA-256 510895c0c2b2fb420d5b73ee376e01eeba25ad650fb3505802ac05b7ae9a493b. This is a new ephemeral debug signature, so may not replace any existing installation signed differently.
+- User's precise Android installation dialog remains unavailable; no claim the issue is resolved, no watch or phone testing performed.
