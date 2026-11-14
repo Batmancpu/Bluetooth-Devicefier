@@ -188,3 +188,18 @@ Before ending a session, read the updated docs back from GitHub and confirm they
 6. Update this prompt, project state and session log in the same commit as every substantive change.
 
 Final user response must report only actual changes, commit hash, tests/builds and results, hardware operations, remaining blockers and the next action. Never claim the watch was changed if it was not.
+
+
+## Continuation update — 2026-11-14: exact APK split prepared
+
+The user asked that the original HiWatchPro APK be supplied in two parts. The exact file was split into:
+- `HiWatchPro.apk.part01` — 55,921,312 bytes; SHA-256 `74e033ce802fdc5d00bea29bb8f500c571b2b543db59c9389e83c28a6a634ead`.
+- `HiWatchPro.apk.part02` — 55,921,311 bytes; SHA-256 `3b2c352331e926644f9c5243d87a7aab9b665584b581e8d6ea6039fe33c41dbb`.
+
+The two pieces were reassembled successfully and verified byte-for-byte against the original:
+- Size: 111,842,623 bytes.
+- SHA-256: `d3d724530619627c563ec94998c0fcf0e9c15eedcf457603a2fbc67c2cf598fc`.
+
+The part files are downloadable artifacts from the previous chat response; they are **not stored in GitHub**. The repository was last observed as public. Do not commit proprietary parts to public Git history. Do not change repository visibility. The user must make it private and authorize storage before parts can be committed. Each part is under Git's 100 MiB command-line limit but above GitHub's 25 MiB browser upload limit; use the agent's Git environment if private storage is approved. See `docs/EVIDENCE/APK_PARTS.md` once available.
+
+A verified reassembly script and part manifest are being added. Keep the APK in ignored private workspace storage after reconstruction.

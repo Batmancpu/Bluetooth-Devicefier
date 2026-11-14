@@ -1,0 +1,14 @@
+{
+  "original_filename": "HiWatchPro.apk",
+  "original_size_bytes": 111842623,
+  "original_sha256": "d3d724530619627c563ec94998c0fcf0e9c15eedcf457603a2fbc67c2cf598fc",
+  "split_method": "binary byte split",
+  "split_offset_bytes": 55921312,
+  "parts": [
+    {"filename":"HiWatchPro.apk.part01","size_bytes":55921312,"sha256":"74e033ce802fdc5d00bea29bb8f500c571b2b543db59c9389e83c28a6a634ead"},
+    {"filename":"HiWatchPro.apk.part02","size_bytes":55921311,"sha256":"3b2c352331e926644f9c5243d87a7aab9b665584b581e8d6ea6039fe33c41dbb"}
+  ],
+  "reassembly_verified": true,
+  "repository_parts_status": "not_committed; downloadable artifacts supplied in originating ChatGPT response",
+  "repository_visibility_last_observed": "public"
+}

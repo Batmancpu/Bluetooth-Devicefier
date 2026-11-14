@@ -21,3 +21,7 @@ keystore.properties
 secrets.properties
 .env
 .env.*
+
+# Private proprietary APK split parts and reconstructed APK
+*.apk.part*
+/private-evidence/
