@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
 import android.bluetooth.BluetoothStatusCodes
 import android.bluetooth.le.BluetoothLeScanner
+import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
@@ -85,11 +86,9 @@ class WatchBleClient(
     private val scanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             handler.post {
-                val name = result.scanRecord?.deviceName
-                    ?: try { result.device.name } catch (_: Exception) { null }
-                    ?: ""
-                // Avoid collecting or displaying unrelated nearby BLE device identities.
-                if (!name.contains("T700", ignoreCase = true)) return@post
+                val name = result.scanRecord?.deviceName ?: return@post
+                // Never collect or act on earbuds and other non-watch advertisements.
+                if (!WatchIdentity.matchesAdvertisedName(name)) return@post
                 val address = result.device.address
                 val previous = targets[address]
                 targets[address] = WatchTarget(
@@ -117,7 +116,10 @@ class WatchBleClient(
         try {
             val s = adapter?.bluetoothLeScanner ?: error("No Bluetooth LE scanner")
             scanner = s
-            s.startScan(null,
+            val watchFilters = WatchIdentity.allowedNames.map {
+                ScanFilter.Builder().setDeviceName(it).build()
+            }
+            s.startScan(watchFilters,
                 ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build(),
                 scanCallback
             )
@@ -135,8 +137,14 @@ class WatchBleClient(
     }
 
     fun connect(target: WatchTarget) {
-        if (gatt != null && state.connection == "Connected") {
-            log("Already connected. Disconnect before selecting a different device.")
+        if (!WatchIdentity.matchesAdvertisedName(target.name) ||
+            targets[target.device.address]?.name != target.name
+        ) {
+            log("Connection denied: this is not a discovered T700 Pro Max.")
+            return
+        }
+        if (gatt != null) {
+            log("A watch connection already exists; disconnect before selecting another.")
             return
         }
         stopScan()
@@ -188,6 +196,13 @@ class WatchBleClient(
             handler.post {
                 if (gatt !== g) return@post
                 if (status == BluetoothGatt.GATT_SUCCESS) {
+                    if (!WatchIdentity.matchesObservedGattProfile(
+                            g.services.map { it.uuid.toString() }
+                        )) {
+                        log("Rejected: device does not expose this watch's verified BLE service profile.")
+                        disconnect()
+                        return@post
+                    }
                     publish(state.copy(connection = "Connected", serviceCount = g.services.size))
                     log("Discovered " + g.services.size + " services. Reading battery and device information.")
                     refresh()

@@ -1,10 +1,14 @@
+# T700 Companion v0.3.1 — watch-only sideload build
+
+**Current artifact:** v0.3.1 compiles the T700-only BLE feature lab, no Android Notification Listener component or permission, no SMS/phone/contacts/Accessibility/Internet privileges. The previous 0.3.0 automatic phone event listener was removed after a Play Protect installation block in India. Manual named phone test windows remain, but **no automatic phone message detection or forwarding** exists. Exact advertised name filters and service signature checks prevent connection to earbuds and unrelated BLE accessories. No code disconnects audio profiles or alters other Bluetooth connections. Release signing remains future work; debug builds may require uninstall before upgrade. See docs/PLAY_PROTECT_AND_WATCH_ISOLATION.md.
+
 # T700 Companion — Bluetooth-Devicefier
 
 **Active deliverable:** A privacy-first Android companion for the user's **T700 Pro Max** smartwatch. This repository builds **one Android APK**, the `companion/` module (`io.github.batmancpu.watchcompanion`). Functional BLE work comes first; visual refinement comes later.
 
 ## Current state — 2026-11-15
 
-- **T700 Companion 0.3.0** is implemented, compiled, unit-tested and signature-verified in [GitHub Actions run 43623972393](https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43623972393). It supports T700-only scanning/manual connection, standard battery and device-info reads, and explicit opt-in temporary notifications on watch-observed CCCD paths, with private-by-default ZIP export. Its behavior on this particular watch is not yet independently verified.
+- **T700 Companion 0.3.1** is implemented, compiled, unit-tested and signature-verified in [GitHub Actions run 43623972393](https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43623972393). It supports T700-only scanning/manual connection, standard battery and device-info reads, and explicit opt-in temporary notifications on watch-observed CCCD paths, with private-by-default ZIP export. Its behavior on this particular watch is not yet independently verified.
 - **WatchProbe is retired.** It already gathered a successful watch diagnostic ZIP, which confirmed 8 GATT service entries, 24 characteristics, manufacturer string LY716, firmware V09708 and observed vendor endpoints. At the user's request, its `app/` module and GitHub Actions APK artifact were removed from the active repository on 2026-11-15. Its source remains in Git history. The user may uninstall WatchProbe from their phone; the sanitized findings remain in [device profile](docs/DEVICE_PROFILE.md).
 - **Unsupported until validated:** notification forwarding, fitness and health sync, alarms, watch faces, proprietary control commands. The protocol cannot be safely guessed from GATT UUIDs alone. The original proprietary HiWatchPro APK binary is not present in the active repository or agent environment.
 - **Safety:** No firmware flashing, OTA/DFU, reset, guessed proprietary write packets, automatic bonding, background tracking or network permission.

@@ -39,10 +39,19 @@ jobs:
           "$SDK_BUILD_TOOLS/apksigner" verify --min-sdk-version 26 --verbose --print-certs "$APK"
           "$SDK_BUILD_TOOLS/zipalign" -c -p 4 "$APK"
           "$SDK_BUILD_TOOLS/aapt" dump badging "$APK" | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
+          # Assert this sideload build contains no sensitive NotificationListenerService.
+          if "$SDK_BUILD_TOOLS/aapt" dump xmltree "$APK" AndroidManifest.xml | grep -q 'android.permission.BIND_NOTIFICATION_LISTENER_SERVICE'; then
+            echo "Unexpected notification-listener service; refusing to publish" >&2
+            exit 1
+          fi
+          if "$SDK_BUILD_TOOLS/aapt" dump permissions "$APK" | grep -q 'android.permission.INTERNET'; then
+            echo "Unexpected INTERNET permission; refusing to publish" >&2
+            exit 1
+          fi
       - name: Upload companion APK
         uses: actions/upload-artifact@v4
         with:
-          name: T700-Companion-0.3.0-debug-APK
+          name: T700-Companion-0.3.1-debug-APK
           path: companion/build/outputs/apk/debug/companion-debug.apk
           if-no-files-found: error
           retention-days: 30

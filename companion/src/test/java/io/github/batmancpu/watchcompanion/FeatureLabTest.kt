@@ -4,12 +4,27 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class FeatureLabTest {
-    @Test fun phoneMetadataWhitelistIsRestricted() {
-        assertEquals("WhatsApp", PhoneNoticeLab.labelFor("com.whatsapp"))
-        assertEquals("Phone", PhoneNoticeLab.labelFor("com.google.android.dialer"))
-        assertEquals("SMS", PhoneNoticeLab.labelFor("com.google.android.apps.messaging"))
-        assertNull(PhoneNoticeLab.labelFor("com.bank.app"))
-        assertNull(PhoneNoticeLab.labelFor("com.instagram.android"))
+    @Test fun onlyWatchNamesPass() {
+        assertTrue(WatchIdentity.matchesAdvertisedName("T700Pro Max"))
+        assertTrue(WatchIdentity.matchesAdvertisedName("T700 Pro Max"))
+        assertFalse(WatchIdentity.matchesAdvertisedName("OPPO Enco Air"))
+        assertFalse(WatchIdentity.matchesAdvertisedName("JBL Tune Buds"))
+        assertFalse(WatchIdentity.matchesAdvertisedName("T700 Pro Mini"))
+        assertFalse(WatchIdentity.matchesAdvertisedName("Other T700 device"))
+        assertFalse(WatchIdentity.matchesAdvertisedName(""))
+    }
+
+    @Test fun observedGattServicesRequired() {
+        assertTrue(WatchIdentity.matchesObservedGattProfile(listOf(
+            ProtocolSafety.BATTERY_SERVICE,
+            ProtocolSafety.VENDOR_UART_SERVICE,
+            ProtocolSafety.OTHER_VENDOR_SERVICE
+        )))
+        assertFalse(WatchIdentity.matchesObservedGattProfile(listOf(
+            ProtocolSafety.BATTERY_SERVICE,
+            ProtocolSafety.VENDOR_UART_SERVICE
+        )))
+        assertFalse(WatchIdentity.matchesObservedGattProfile(emptyList()))
     }
 
     @Test fun faceImageBoundsAreConservative() {

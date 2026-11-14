@@ -87,3 +87,9 @@ This file records durable choices. Add new decisions with date, status, rational
 
 ### D-017: Structured, watch-correlated feature tests without packet guessing (2026-11-15)
 **Status:** Accepted. **Decision:** Provide start/end test windows for ordinary watch actions and phone notifications; correlate incoming watch-origin notifications and opt-in phone metadata. Keep private raw watch bytes off by default; all app-level writes forbidden without evidence and separate approval. **Rationale:** Enables repeatable user-directed evidence gathering while preserving watch safety. **Consequence:** Correlation alone cannot establish commands or feature parity. Future vendor writes must pass safety gates in docs/FEATURE_ROADMAP.md.
+
+### D-018: Remove Notification Listener from sideload release (2026-11-15)
+**Status:** Accepted. **Reason:** User's v0.3.0 install was blocked by Play Protect, and Google explicitly lists Notification Listener binding among sensitive permissions checked in India's enhanced fraud protection. **Decision:** v0.3.1 removes the listener component and its sensitive phone event capture; manual test windows remain without phone-side message access. We will not bypass Play Protect. Proper reviewed distribution and explicit permissions are required if real phone notification forwarding is reintroduced. This is not proof that every future sideload is accepted.
+
+### D-019: Strict T700-only BLE selection (2026-11-15)
+**Status:** Accepted. **Decision:** Filter on exact observed T700 advertised names, revalidate before connection, and require battery+both vendor services after GATT discovery; never scan/act on paired earbuds, their audio profiles or other Bluetooth connections. **Consequence:** Unknown advertisements and incompatible lookalikes are ignored; if watch advertising name/service profile changes it may be intentionally excluded until its identity is verified.

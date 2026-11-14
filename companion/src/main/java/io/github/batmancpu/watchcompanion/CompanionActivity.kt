@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,11 +29,11 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
 data class ActiveExperiment(
-    val label: String, val startedMs: Long, val watchBefore: Int, val phoneBefore: Int
+    val label: String, val startedMs: Long, val watchBefore: Int
 )
 data class ExperimentResult(
     val label: String, val startedMs: Long, val endedMs: Long,
-    val watchEvents: Int, val phoneEvents: Int
+    val watchEvents: Int
 )
 
 /** Physical watch test suite; no unverified vendor transmit commands. */
@@ -112,9 +111,6 @@ class CompanionActivity : ComponentActivity() {
         if (bluetoothOn()) client.scan()
         else enableBluetooth.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
     }
-    private fun notificationAccess(): Boolean =
-        Settings.Secure.getString(contentResolver, "enabled_notification_listeners")
-            ?.contains(packageName, ignoreCase = true) == true
     private fun note(line: String) {
         status = line
         messages.add(SimpleDateFormat("HH:mm:ss", Locale.US).format(Date()) + " " + line)
@@ -125,17 +121,16 @@ class CompanionActivity : ComponentActivity() {
         if (activeExperiment != null) { note("Finish the existing test first."); return }
         activeExperiment = ActiveExperiment(
             label, System.currentTimeMillis(),
-            client.snapshot().totalEvents, PhoneNoticeLab.events.size
+            client.snapshot().totalEvents
         )
         note("Test started: " + label + ". Perform normal action then finish.")
     }
     private fun finishTest() {
         val active = activeExperiment ?: return
         val w = (client.snapshot().totalEvents - active.watchBefore).coerceAtLeast(0)
-        val p = (PhoneNoticeLab.events.size - active.phoneBefore).coerceAtLeast(0)
-        results.add(ExperimentResult(active.label, active.startedMs, System.currentTimeMillis(), w, p))
+        results.add(ExperimentResult(active.label, active.startedMs, System.currentTimeMillis(), w))
         activeExperiment = null
-        note("Recorded: " + active.label + " / watch packets " + w + " / phone notices " + p)
+        note("Recorded: " + active.label + " / watch-origin packets " + w)
     }
 
     private fun exportFace(uri: Uri) {
@@ -161,7 +156,6 @@ class CompanionActivity : ComponentActivity() {
         val state = client.snapshot()
         val packets = client.events()
         val raw = includeWatchPayloads
-        val phone = PhoneNoticeLab.events.toList()
         val tests = results.toList()
         val logs = messages.toList()
         val image = faceSource
@@ -170,7 +164,7 @@ class CompanionActivity : ComponentActivity() {
         Thread {
             try {
                 contentResolver.openOutputStream(uri, "w")?.use {
-                    writeExport(it, state, packets, raw, phone, tests, logs, image, w, h)
+                    writeExport(it, state, packets, raw, tests, logs, image, w, h)
                 } ?: error("Cannot open output")
                 runOnUiThread { note("Feature test ZIP exported. Review before sharing.") }
             } catch (e: Exception) {
@@ -183,14 +177,13 @@ class CompanionActivity : ComponentActivity() {
         state: WatchState,
         packets: List<WatchEvent>,
         includeRaw: Boolean,
-        phone: List<NoticeEvent>,
         tests: List<ExperimentResult>,
         log: List<String>,
         source: FaceSource?,
         width: String, height: String
     ) {
         val info = JSONObject()
-            .put("app", "T700 Companion 0.3.0")
+            .put("app", "T700 Companion 0.3.1")
             .put("connection", state.connection)
             .put("battery_percent", state.battery ?: JSONObject.NULL)
             .put("services", state.serviceCount)
@@ -210,13 +203,6 @@ class CompanionActivity : ComponentActivity() {
             if (includeRaw) entry.put("watch_payload_hex", ProtocolSafety.toHex(p.bytes))
             received.put(entry)
         }
-        val phoneEvents = JSONArray()
-        phone.forEach {
-            phoneEvents.put(JSONObject()
-                .put("timestamp_ms", it.timestampMs)
-                .put("source", it.source)
-                .put("kind", it.kind))
-        }
         val experiments = JSONArray()
         tests.forEach {
             experiments.put(JSONObject()
@@ -224,7 +210,7 @@ class CompanionActivity : ComponentActivity() {
                 .put("started_ms", it.startedMs)
                 .put("ended_ms", it.endedMs)
                 .put("watch_packets", it.watchEvents)
-                .put("phone_notifications", it.phoneEvents)
+                .put("phone_notifications_collected", false)
                 .put("interpretation", "Temporal correlation only; no decoded command proof"))
         }
         val face = JSONObject()
@@ -244,21 +230,19 @@ class CompanionActivity : ComponentActivity() {
                 T700 Companion 0.3.0 feature-test report.
                 Only selected-watch Bluetooth notifications are recorded; raw payloads OFF
                 by default. Raw watch payloads may contain sensitive information.
-                Phone notification metadata is restricted to app category and time;
-                no message, contact, sender, phone number or notification key is copied.
+                No Android Notification Listener or sensitive phone permissions are included.
+                No SMS/call/message content or metadata is accessed.
                 Temporal packet correlation does not prove proprietary command semantics.
                 No vendor application writes, watch-face upload, OTA, firmware or reset.
             """.trimIndent())
             put("companion-state.json", info.toString(2))
             put("watch-notification-events.json", received.toString(2))
-            put("phone-notification-metadata.json", phoneEvents.toString(2))
             put("guided-tests.json", experiments.toString(2))
             put("watch-face-preview.json", face.toString(2))
             put("session-log.json", JSONArray(log).toString(2))
         }
     }
     override fun onDestroy() {
-        PhoneNoticeLab.setMonitoringActive(false)
         if (::client.isInitialized) client.close()
         super.onDestroy()
     }
@@ -272,8 +256,9 @@ class CompanionActivity : ComponentActivity() {
             Spacer(Modifier.height(8.dp))
             Text("T700 COMPANION", style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold)
-            Text("Hardware-safe feature lab · 0.3.0")
-            Text("Real BLE reads and controlled experiments. No guessed vendor commands.")
+            Text("Hardware-safe feature lab · 0.3.1")
+            Text("Only the observed T700 watch is selectable. Earbuds are ignored, and " +
+                "no guessed vendor commands or sensitive phone permissions are used.")
             Section("1 · Connect") {
                 Text(if (bluetoothOn()) "Phone Bluetooth: ON" else "Phone Bluetooth: OFF")
                 Button(onClick = { startScan() }) {
@@ -319,35 +304,18 @@ class CompanionActivity : ComponentActivity() {
                 }
                 Text("Disconnect to stop. No vendor packets are transmitted.")
             }
-            Section("4 · Phone WhatsApp, SMS and call-event test") {
-                Text("Detect only notification source and category on this phone. " +
-                    "No text, numbers or contact names collected. This is not watch forwarding.")
-                Text("Android notification access: " +
-                    if (notificationAccess()) "granted" else "not granted")
-                OutlinedButton(onClick = {
-                    startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
-                }) { Text("Open notification-access settings") }
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Switch(
-                        checked = PhoneNoticeLab.enabled,
-                        onCheckedChange = { allow ->
-                            if (allow && !notificationAccess()) {
-                                note("Enable notification access in Android settings first.")
-                            } else PhoneNoticeLab.setMonitoringActive(allow)
-                        }
-                    )
-                    Text("Observe phone event metadata", Modifier.padding(top = 8.dp))
-                }
-                Text("Observed phone notifications: " + PhoneNoticeLab.events.size)
-                PhoneNoticeLab.events.groupingBy { it.source + " / " + it.kind }
-                    .eachCount().forEach { (kind, n) -> Text(kind + ": " + n) }
-                OutlinedButton(onClick = { PhoneNoticeLab.clear() }) {
-                    Text("Clear phone event metadata")
-                }
+            Section("4 · Phone notification privacy") {
+                Text("This sideloaded APK does not request Notification Access, SMS, call logs, " +
+                    "contacts, or Accessibility privileges. Sensitive phone permissions are unnecessary " +
+                    "for Bluetooth scanning, device information and watch-origin BLE observation.")
+                Text("For WhatsApp/SMS/call tests, manually start a named experiment below, " +
+                    "perform the normal action, and finish. Only watch-origin packet counts " +
+                    "are recorded. No automatic phone message or caller detection is performed.")
+                Text("Earbuds and other phone Bluetooth connections are never disconnected.")
             }
             Section("5 · Guided feature experiments") {
                 Text("Start one test, perform a normal watch or phone action, then finish. " +
-                    "We compare incoming watch packets and selected phone notification counts.")
+                    "We count only watch-origin BLE packets; phone notifications are not read.")
                 if (activeExperiment == null) {
                     listOf(
                         "Watch screen/button action",
@@ -367,8 +335,7 @@ class CompanionActivity : ComponentActivity() {
                 }
                 Text("Completed tests: " + results.size)
                 results.takeLast(8).forEach {
-                    Text(it.label + " · " + it.watchEvents +
-                        " watch packets · " + it.phoneEvents + " phone notices")
+                    Text(it.label + " · " + it.watchEvents + " watch-origin packets")
                 }
             }
             Section("6 · Offline watch-face preparation") {
