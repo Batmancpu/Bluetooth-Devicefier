@@ -1,0 +1,23 @@
+# Local proprietary APKs and private evidence — never commit to this public repository
+*.apk
+*.aab
+/private-evidence/
+/private-captures/
+/private-reports/
+
+# Android / Gradle local files
+.gradle/
+**/build/
+local.properties
+.idea/
+*.iml
+.cxx/
+.externalNativeBuild/
+
+# Signing keys and credentials
+*.jks
+*.keystore
+keystore.properties
+secrets.properties
+.env
+.env.*

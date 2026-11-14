@@ -1,0 +1,63 @@
+# Decisions and rationale
+
+This file records durable choices. Add new decisions with date, status, rationale and consequences; do not silently rewrite prior decisions.
+
+## 2026-11-14 — Current decisions
+
+### D-001: One comprehensive diagnostic app, not a chain of scanner apps
+**Status:** Accepted  
+**Decision:** Build one purpose-built Android research tool that combines discovery, safe GATT inspection, evidence capture/import and report export.  
+**Rationale:** The user already used nRF Connect and wants a single, purposeful app that collects the information needed for later development.  
+**Consequence:** Do not ask the user to install several unrelated utilities as the default plan. Research existing libraries and APIs for implementation, but the deliverable remains one app.
+
+### D-002: Diagnostic app is distinct from the final companion
+**Status:** Accepted  
+**Decision:** The immediate deliverable is a one-time diagnostic/reverse-engineering tool. A production, always-on replacement for HiWatchPro is a later stage.  
+**Rationale:** The immediate goal is to establish the exact device protocol and feature support before building the final product.  
+**Consequence:** Do not prematurely implement the permanent notification service or all companion features in the diagnostic app.
+
+### D-003: Keep the project safe by default
+**Status:** Accepted  
+**Decision:** Initial discovery is read-only. No firmware, OTA/DFU, bootloader, factory reset or undocumented destructive commands. Any normal application-level write, including watch-face upload, requires protocol evidence and explicit user approval.  
+**Rationale:** The user explicitly does not want to brick the watch.  
+**Consequence:** Unknown commands must never be sent experimentally.
+
+### D-004: Watch-face upload is a first-class research target
+**Status:** Accepted  
+**Decision:** Inspect the HiWatchPro custom watch-face workflow and reverse-engineer the input format, image processing, transfer protocol, acknowledgement and constraints.  
+**Rationale:** The user knows HiWatchPro can upload a watch face from a phone image and wants to improve this capability later.  
+**Consequence:** Do not assume ordinary JPEG/PNG upload or guess BLE payloads. Static APK and runtime evidence are required.
+
+### D-005: No chipset inference from multi-platform SDKs or similar UUIDs
+**Status:** Accepted  
+**Decision:** Yichip/Telink/Realtek/RealSil SDK strings in the APK and the vendor service UUID are research leads, not proof of the watch chipset or protocol.  
+**Rationale:** HiWatchPro may support many devices. The observed UUID differs from the common Nordic UART UUID.  
+**Consequence:** Only device-specific evidence may raise a candidate to verified.
+
+### D-006: Keep the public repository free of private/proprietary evidence
+**Status:** Accepted  
+**Decision:** Do not commit the original proprietary APK, unredacted device address, private notification captures, secrets or credentials.  
+**Rationale:** The repository is currently public. The APK is 106.66 MiB and exceeds GitHub's normal 100 MiB single-object limit; it is also a proprietary third-party binary.  
+**Consequence:** Store a fingerprint and instructions in the repo. The user can supply the APK privately to an agent. Revisit LFS/private storage only after explicit visibility and rights decision.
+
+### D-007: One main branch
+**Status:** Accepted  
+**Decision:** Use main as the primary branch and avoid unnecessary long-lived branches/workflows.  
+**Rationale:** The user prefers a simple repository workflow.  
+**Consequence:** Make small, reversible commits and preserve user changes.
+
+### D-008: Liquid Glass is primarily a future companion UI requirement
+**Status:** Accepted  
+**Decision:** Use a polished phone-friendly interface for the diagnostic tool, but do not compromise its primary research function. Full iOS 27-inspired Liquid Glass refinement belongs to the future companion if pursued.  
+**Rationale:** The user wants a premium interface, but the diagnostic application is a one-time tool.
+
+### D-009: <1% battery/24 hours is a future companion target, not a diagnostic-app guarantee
+**Status:** Accepted  
+**Decision:** Measure rather than promise. Keep the diagnostic app session-based and avoid unnecessary background service.  
+**Rationale:** The always-on companion and a one-time diagnostic utility have different lifecycle requirements.
+
+### D-010: Runtime HCI capture is an optional evidence route, not a third-party app requirement
+**Status:** Accepted  
+**Decision:** If APK static analysis and direct GATT discovery do not reveal the protocol, investigate Android's built-in Bluetooth HCI snoop logging and optionally build capture import into the diagnostic tool.  
+**Rationale:** One app cannot passively inspect another app's private GATT calls through ordinary Android APIs.  
+**Consequence:** Be transparent about any system-level capture/export step that cannot be fully automated from a normal app.
