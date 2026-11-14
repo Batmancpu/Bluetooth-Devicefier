@@ -54,3 +54,33 @@ The nRF Connect screenshots showed the advertised name, BLE LE-only/legacy adver
 After verifying this handoff commit on main, the next agent should obtain the APK privately and perform focused static analysis before designing the comprehensive one-shot diagnostic app. Do not ask the user to install a sequence of third-party test apps.
 
 **Handoff documentation commit:** `581ba62ad770e2420c838ad01c8a806eb7ec9c4b` (verified on `main`; see GitHub commit history).
+
+
+## 2026-11-14 — Two-part APK preparation and continuation prompt
+
+**Task:** User requested the exact original APK be split into two files and the next-agent prompt be maintained after every commit.
+
+### Binary preparation
+- Original: `HiWatchPro.apk`, 111,842,623 bytes.
+- Original SHA-256: `d3d724530619627c563ec94998c0fcf0e9c15eedcf457603a2fbc67c2cf598fc`.
+- Part 01: 55,921,312 bytes; SHA-256 `74e033ce802fdc5d00bea29bb8f500c571b2b543db59c9389e83c28a6a634ead`.
+- Part 02: 55,921,311 bytes; SHA-256 `3b2c352331e926644f9c5243d87a7aab9b665584b581e8d6ea6039fe33c41dbb`.
+- Reassembly succeeded; expected output size/hash matched and `cmp` byte-for-byte test passed.
+- Part files were prepared as downloadable attachments. They were not committed to GitHub because the repository is public, the APK is proprietary and this session's GitHub connector does not support uploading binary files or Git LFS assets.
+
+### Repository changes
+- Added `NEXT_AGENT_PROMPT.md`.
+- Updated `AGENTS.md` to require same-commit prompt refresh for every substantive change.
+- Added `docs/EVIDENCE/APK_PARTS.md`, `docs/EVIDENCE/APK_PARTS.json` and `tools/reassemble_HiWatchPro.py`.
+- Updated `.gitignore` to keep local APK chunks and reconstructed APK in private workspace storage.
+- The canonical project state now records the current APK availability and privacy blocker.
+
+### Verification
+- Reassembled APK: 111,842,623 bytes.
+- Reassembled SHA-256: `d3d724530619627c563ec94998c0fcf0e9c15eedcf457603a2fbc67c2cf598fc`.
+- Byte-for-byte comparison against source: PASS.
+- No Android build or physical-watch test was run.
+- No BLE pairing, GATT write, notification subscription, firmware update or watch modification was performed.
+
+### Next action
+User should attach both part files to the next coding agent. If the parts are to be stored in GitHub, the user must first make the repository private and explicitly authorize it; the agent must use Git CLI because each part exceeds GitHub's 25 MiB browser-upload limit. Then reconstruct with `tools/reassemble_HiWatchPro.py`, verify the fingerprint and inspect the APK. Keep `NEXT_AGENT_PROMPT.md` current in the same commit as every substantive change.

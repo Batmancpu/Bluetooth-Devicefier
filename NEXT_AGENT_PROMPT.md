@@ -203,3 +203,13 @@ The two pieces were reassembled successfully and verified byte-for-byte against 
 The part files are downloadable artifacts from the previous chat response; they are **not stored in GitHub**. The repository was last observed as public. Do not commit proprietary parts to public Git history. Do not change repository visibility. The user must make it private and authorize storage before parts can be committed. Each part is under Git's 100 MiB command-line limit but above GitHub's 25 MiB browser upload limit; use the agent's Git environment if private storage is approved. See `docs/EVIDENCE/APK_PARTS.md` once available.
 
 A verified reassembly script and part manifest are being added. Keep the APK in ignored private workspace storage after reconstruction.
+
+
+## Handoff status updated — 2026-11-14
+
+The repository now includes:
+- `docs/EVIDENCE/APK_PARTS.md` and `docs/EVIDENCE/APK_PARTS.json` with exact part hashes/sizes;
+- `tools/reassemble_HiWatchPro.py` to reassemble the supplied two parts and verify the exact original APK;
+- updated `AGENTS.md` making same-commit NEXT_AGENT_PROMPT maintenance mandatory.
+
+The parts remain downloadable artifacts from the preceding ChatGPT response, not repository files. Reassembly was tested successfully and matched the original byte-for-byte. Repository visibility was last observed as public, so do not commit the proprietary parts. Ask the user only for the required privacy/attachment step: make the repository private if they want private in-repo storage, and attach both split files to the coding-agent session. Do not ask the user to repeat project history.

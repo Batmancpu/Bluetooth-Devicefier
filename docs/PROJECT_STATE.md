@@ -128,3 +128,14 @@ APK omitted from this public repository because it is 106.66 MiB (GitHub blocks 
 - Does the device accept custom faces beyond the vendor app's templates?
 
 Do not silently fill these gaps. Record evidence and confidence as it becomes available.
+
+
+## 10. Update — two-part APK preparation and next-agent prompt (2026-11-14)
+
+- The original HiWatchPro APK was split into two byte-exact parts for private transfer. Sizes and SHA-256 values are documented in `docs/EVIDENCE/APK_PARTS.md` and `docs/EVIDENCE/APK_PARTS.json`.
+- Both parts were reassembled in the working environment; the output matched the original size (111,842,623 bytes), SHA-256 (`d3d724530619627c563ec94998c0fcf0e9c15eedcf457603a2fbc67c2cf598fc`) and passed byte-for-byte comparison.
+- The split part files are downloadable ChatGPT artifacts, **not committed to this GitHub repository**. The repository was last observed as public. Do not add the proprietary binary or parts to public Git history. The user must make the repository private and authorize private storage before a future coding agent adds the parts.
+- Each chunk is about 53.33 MiB. GitHub browser uploads have a 25 MiB per-file limit; command-line Git allows up to 100 MiB per file. These chunks therefore require a Git CLI/agent environment, not browser upload.
+- Added `NEXT_AGENT_PROMPT.md` as the canonical copy-ready prompt for the next AI. `AGENTS.md` now requires refreshing it in the same commit as every substantive change, alongside project state/session log updates.
+- Added `docs/EVIDENCE/APK_PARTS.md`, `docs/EVIDENCE/APK_PARTS.json` and `tools/reassemble_HiWatchPro.py`.
+- No Android diagnostic app has been implemented; no Bluetooth or firmware operation was performed.
