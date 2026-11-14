@@ -20,7 +20,7 @@ object PhoneNoticeLab {
     val events = mutableStateListOf<NoticeEvent>()
     private val main by lazy { Handler(Looper.getMainLooper()) }
 
-    fun setEnabled(allow: Boolean) {
+    fun setMonitoringActive(allow: Boolean) {
         enabled = allow
         if (!allow) serviceConnected = false
     }

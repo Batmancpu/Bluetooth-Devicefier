@@ -261,3 +261,6 @@ User uploaded a private 5.2KB sanitized `WatchProbe-20261114-2317.zip`, verified
 
 ### First companion APK build complete
 Actions run https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43623972393 (commit 554438e) SUCCESS, all tests, both builds, APK signature/zipalign/aapt. Companion artifact 14125256837 is a valid DEBUG-signed APK (9,494,460 bytes SHA256 8d8f6e160cd03d285009998876f84a4ebf2769a6efae59ad08789bb44f8c47a4), package io.github.batmancpu.watchcompanion. Physical watch is NOT tested with this module; user should install, scan, connect, check battery/identity, optionally tap CCCD notification observation, export ZIP with raw OFF. Original physical GATT ZIP enumerates **24 characteristics** (15 successful reads). Debug signer is ephemeral across CI runs, so do not claim upgrade-in-place compatibility. Original HiWatchPro APK bytes not accessible. No proprietary features implemented until protocol proven.
+
+### 2026-11-15 v0.3.0 Kotlin compiler fix
+Initial CI run 43634665772 FAILED at `companion:compileDebugKotlin` because `PhoneNoticeLab.enabled` generated setter and manually declared `setEnabled(Boolean)` had the same JVM signature. Changed method name to `setMonitoringActive(Boolean)` in service state object and Activity call sites. No hardware action. Re-running CI; don't claim passing APK before verifying.

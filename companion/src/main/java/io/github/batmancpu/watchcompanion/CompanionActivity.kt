@@ -258,7 +258,7 @@ class CompanionActivity : ComponentActivity() {
         }
     }
     override fun onDestroy() {
-        PhoneNoticeLab.setEnabled(false)
+        PhoneNoticeLab.setMonitoringActive(false)
         if (::client.isInitialized) client.close()
         super.onDestroy()
     }
@@ -333,7 +333,7 @@ class CompanionActivity : ComponentActivity() {
                         onCheckedChange = { allow ->
                             if (allow && !notificationAccess()) {
                                 note("Enable notification access in Android settings first.")
-                            } else PhoneNoticeLab.setEnabled(allow)
+                            } else PhoneNoticeLab.setMonitoringActive(allow)
                         }
                     )
                     Text("Observe phone event metadata", Modifier.padding(top = 8.dp))
