@@ -150,3 +150,8 @@ Do not silently fill these gaps. Record evidence and confidence as it becomes av
 - No Android binary or real-device test had been verified when this code was first committed; GitHub Actions must establish build status. No watch operations were performed by this agent.
 - The original HiWatchPro binary or split parts were not present in the current session; static reverse engineering is a remaining blocker, but does not block baseline GATT diagnostics.
 - Next: verify CI compile/unit tests and artifact, fix failures if any, install/test on OPPO Reno10 5G and export the first watch report. Then use verified report and privately provided exact APK/captures to map watch-specific protocol.
+
+
+### CI repair 1 — 2026-11-14
+- Initial GitHub Actions run 43620460480 failed before compilation in android-actions/setup-android@v3 because sdkmanager rejected obsolete `tools` package. This was workflow infrastructure, not a Kotlin compile result.
+- Replaced setup-android action with direct runner command-line SDK installer. Re-run triggered on main by workflow change; results must be verified independently.

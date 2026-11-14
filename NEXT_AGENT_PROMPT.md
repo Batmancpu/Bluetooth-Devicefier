@@ -223,3 +223,8 @@ The parts remain downloadable artifacts from the preceding ChatGPT response, not
 **Evidence:** Physical watch identity/UUIDs still based ONLY on prior nRF Connect screenshots. Vendor service ends in `cca9d`. Chipset and proprietary command meanings UNKNOWN. HiWatchPro.apk and exact two-part files NOT present in this current agent session, and NOT in the public repository. Do not fabricate static analysis or assume cached session files.
 **Next action:** Check CI status; correct source and retest until APK artifact is available. User installs the debug APK on OPPO Android 15, grants Nearby Devices, scans/selects T700Pro Max, exports ZIP with sensitive toggle OFF; share a sanitized report. Later, privately obtain the fingerprint-matching HiWatchPro APK and analyze its relevant protocol routing; write evidence and uncertainty clearly.
 **Continuity:** Every further substantive commit MUST update this file, docs/PROJECT_STATE.md, docs/SESSION_LOG.md together, plus relevant decision/technical docs; verify latest main before writing. The implementation commit is the single GitHub commit containing this section; check Git history for full hash.
+
+
+### CI failure and fix — 2026-11-14
+- First push-triggered Actions run: https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620460480 FAILED during SDK setup, before compiling, because android-actions/setup-android@v3 attempted obsolete sdkmanager package `tools`.
+- Workflow modified to find and invoke the GitHub runner's own SDK manager. Confirm the next run succeeds before advertising an APK. Source syntax/Android correctness has not yet been established by compilation; all Bluetooth hardware evidence remains prior screenshots only.

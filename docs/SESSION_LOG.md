@@ -98,3 +98,8 @@ User should attach both part files to the next coding agent. If the parts are to
 **Remaining:** HiWatchPro exact proprietary APK or split parts absent from this chat session; deep static protocol research pending. User must perform first on-device scan/read and supply sanitized report; maintain safety gates.
 
 **Next action:** Verify GitHub Actions workflow, download APK only if the build succeeds, test on the specified OPPO handset, inspect exported ZIP without publishing device addresses.
+
+
+### CI run 1 and workflow repair — 2026-11-14
+- Run 43620460480 on main: FAILED at android-actions/setup-android@v3; underlying error `Warning: Failed to find package 'tools'` and exit 1. Compile/test/upload steps were skipped.
+- Repair: remove incompatible Android setup action and invoke existing runner `sdkmanager` to install API 35/build-tools 35.0.0. CI rerun pending. No hardware accessed.
