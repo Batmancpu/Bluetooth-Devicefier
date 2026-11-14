@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "BluetoothDevicefier"
 include(":app")
+include(":companion")

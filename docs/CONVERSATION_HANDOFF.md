@@ -76,3 +76,6 @@ The user supplied two nRF Connect screenshots rather than a written prompt.
 ## Important technical correction to carry forward
 
 Do not claim that a one-shot diagnostic app can obtain literally every hidden device fact or automatically observe another Android app's private BLE operations. It can enumerate exposed BLE data, read supported attributes, analyze local assets and import supported capture files. Runtime traffic from HiWatchPro may require Android's HCI snoop capture or another explicit observation route. The goal is maximum evidence with clear unknowns, not false certainty.
+
+## 2026-11-14 Stage-two update
+After WatchProbe installed successfully, user exported sanitized ZIP. Physical watch verified battery 100%, LY716 manufacturer string, V09708 firmware, exact two vendor notify/write channel pairs. User authorized development of permanent functional app and deferral of aesthetics. New `companion` module version 0.2.0 uses separate app identity, safe standard GATT reads and optional explicit CCCD notification monitor; watch commands/advanced features not yet enabled. Full details docs/COMPANION_STAGE1.md. Original HiWatchPro APK binary was referenced from older session by hash but is not accessible to current agent. Build/test and physical validation awaited.

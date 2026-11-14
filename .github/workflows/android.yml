@@ -1,9 +1,10 @@
-name: Build WatchProbe diagnostic APK
+name: Build WatchProbe and T700 Companion APKs
 on:
   push:
     branches: [main]
     paths:
       - 'app/**'
+      - 'companion/**'
       - 'build.gradle.kts'
       - 'settings.gradle.kts'
       - 'gradle.properties'
@@ -29,17 +30,25 @@ jobs:
           SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | head -n 1)"
           test -n "$SDKMANAGER"
           "$SDKMANAGER" 'platforms;android-35' 'build-tools;35.0.0'
-      - name: Test and assemble read-only APK
-        run: gradle --no-daemon :app:testDebugUnitTest :app:assembleDebug
-      - name: Verify APK signature, alignment and Android package metadata
+      - name: Test and assemble both Android apps
+        run: gradle --no-daemon :app:testDebugUnitTest :app:assembleDebug :companion:testDebugUnitTest :companion:assembleDebug
+      - name: Verify both signatures, alignment and package metadata
         run: |
-          APK="app/build/outputs/apk/debug/app-debug.apk"
-          test -s "$APK"
           SDK_BUILD_TOOLS="$ANDROID_HOME/build-tools/35.0.0"
-          "$SDK_BUILD_TOOLS/apksigner" verify --min-sdk-version 26 --verbose --print-certs "$APK"
-          "$SDK_BUILD_TOOLS/zipalign" -c -p 4 "$APK"
-          "$SDK_BUILD_TOOLS/aapt" dump badging "$APK" | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
-      - name: Upload installable APK
+          for APK in app/build/outputs/apk/debug/app-debug.apk companion/build/outputs/apk/debug/companion-debug.apk; do
+            test -s "$APK"
+            "$SDK_BUILD_TOOLS/apksigner" verify --min-sdk-version 26 --verbose --print-certs "$APK"
+            "$SDK_BUILD_TOOLS/zipalign" -c -p 4 "$APK"
+            "$SDK_BUILD_TOOLS/aapt" dump badging "$APK" | grep -E "^(package:|sdkVersion:|targetSdkVersion:|application-label:)"
+          done
+      - name: Upload first-stage companion APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: T700-Companion-0.2.0-debug-APK
+          path: companion/build/outputs/apk/debug/companion-debug.apk
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload original WatchProbe APK for archival use
         uses: actions/upload-artifact@v4
         with:
           name: WatchProbe-0.1.0-debug-APK

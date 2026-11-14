@@ -37,3 +37,6 @@ Local if SDK/Gradle installed: gradle :app:testDebugUnitTest :app:assembleDebug.
 CI run: https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620616666 — SUCCESS (Gradle `testDebugUnitTest`, `assembleDebug`, uploaded artifact).
 Artifact ID: 14124400066; file app-debug.apk; size 9,510,840 bytes; SHA-256 `f89e60bfa1d7b365e74d88e93fff7af106f59cfaf8b820d3909410acb5e7de72`.
 The output APK was downloaded from GitHub, unzipped and checked for archive integrity. No emulator or physical device execution was performed.
+
+## T700 Companion stage-one (2026-11-14)
+A new independent application module at `companion/`, package `io.github.batmancpu.watchcompanion` is under development. Source offers concrete standard battery/device-information reads, connection management, opt-in CCCD-only notification observation (battery/known vendor channels), local privacy-first ZIP export, no Internet permission and no proprietary writes/firmware operations. Existing WatchProbe `app/` is retained for archival diagnosis. New CI builds/verifies both APKs. Refer to `docs/COMPANION_STAGE1.md` for safety gates and feature status; new companion on-watch installation/behavior has not yet been tested.

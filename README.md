@@ -54,3 +54,8 @@ See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for scope, safety details, 
 
 
 **Verified build:** [GitHub Actions run 43620616666](https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620616666) succeeded, including `testDebugUnitTest` and `assembleDebug`. The debug APK is 9,510,840 bytes; SHA-256: `f89e60bfa1d7b365e74d88e93fff7af106f59cfaf8b820d3909410acb5e7de72`. This is a developer test build, not yet validated on the physical watch.
+
+## Functional companion foundation (v0.2.0)
+The Android `companion/` module is a separate **T700 Companion** APK, not an update to WatchProbe. It is focused on reliable BLE discovery/connection and standard battery/device-information reads on a physically surveyed T700Pro Max. A separate user-tapped observation action enables standard BLE notifications on the exact observed battery, vendor `…CCA9D/003` and `FFFF/FF11` channels (CCCD only). No guessed vendor commands, watch-face transfer or firmware modifications are sent.
+
+Run `gradle :companion:testDebugUnitTest :companion:assembleDebug`; GitHub Actions builds and validates both APKs. Install the **companion APK**, not the ZIP artifact, and manually connect the T700Pro Max. See `docs/COMPANION_STAGE1.md` for exact supported and unsupported functionality, privacy/export behavior and test steps. On-device companion execution remains unverified until the user tests it.
