@@ -1,6 +1,6 @@
 # AGENTS.md — mandatory instructions for every AI agent
 
-This file is the repository's highest-priority project handoff. Read it before inspecting, planning or changing code. Then read docs/PROJECT_STATE.md, docs/DECISIONS.md, docs/DEVICE_PROFILE.md, docs/APK_REFERENCE.md, docs/RESEARCH_AND_REQUIREMENTS.md, docs/CONVERSATION_HANDOFF.md and the latest docs/SESSION_LOG.md entry.
+This file is the repository's highest-priority permanent instruction file. Read it before inspecting, planning or changing code. Then read NEXT_AGENT_PROMPT.md, docs/PROJECT_STATE.md, docs/DECISIONS.md, docs/DEVICE_PROFILE.md, docs/APK_REFERENCE.md, docs/RESEARCH_AND_REQUIREMENTS.md, docs/CONVERSATION_HANDOFF.md and the latest docs/SESSION_LOG.md entry.
 
 ## 1. Role and ownership
 
@@ -197,3 +197,15 @@ Report only:
 Never imply the watch was modified if only a scan/read occurred. Never say “done” if work is partial.
 
 **The repository is the long-term memory. The chat is temporary. Update the repository so the next agent can continue from the exact verified state.**
+
+
+## 13. Mandatory continuation-prompt maintenance on EVERY substantive commit
+
+The user explicitly requires a live continuation prompt so another AI can inherit the exact project state.
+
+- `NEXT_AGENT_PROMPT.md` is the copy-ready current continuation prompt. Every incoming agent must read it before work.
+- For **every commit** that changes code, configuration, tests, research, evidence, requirements, plans, scope or project state, refresh `NEXT_AGENT_PROMPT.md` in the **same commit**.
+- In that same commit, update `docs/PROJECT_STATE.md` and `docs/SESSION_LOG.md`; update `docs/DECISIONS.md` whenever a durable decision or goal changes; update technical docs as evidence changes.
+- The prompt must accurately record the current goal and approved goal changes, completed work, affected components/files, tests/builds actually run, evidence with confidence, decisions, bugs/risks, blockers, next action, APK availability/verification state and current commit context.
+- Do not create a separate commit solely to update the prompt; include it in the substantive commit. Avoid a recursive chain of prompt-only commits.
+- Before ending each session, fetch/read the updated files from GitHub and verify that they reflect the actual main branch.
