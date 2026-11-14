@@ -103,3 +103,11 @@ User should attach both part files to the next coding agent. If the parts are to
 ### CI run 1 and workflow repair — 2026-11-14
 - Run 43620460480 on main: FAILED at android-actions/setup-android@v3; underlying error `Warning: Failed to find package 'tools'` and exit 1. Compile/test/upload steps were skipped.
 - Repair: remove incompatible Android setup action and invoke existing runner `sdkmanager` to install API 35/build-tools 35.0.0. CI rerun pending. No hardware accessed.
+
+
+## 2026-11-14 — WatchProbe 0.1.0 CI VERIFIED
+- Run [43620616666](https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620616666) for commit `7dff8fea6310ab9dbeb90b1ffca53de9e3e5c361`: SUCCESS.
+- Verified steps: SDK 35 install, `:app:testDebugUnitTest` PASS, `:app:assembleDebug` PASS, upload-artifact PASS. 41 Gradle tasks executed; Kotlin compilation successful.
+- Artifact ID `14124400066`, name `WatchProbe-0.1.0-debug-APK`, internal filename `app-debug.apk`. Size 9,510,840 bytes; SHA-256 `f89e60bfa1d7b365e74d88e93fff7af106f59cfaf8b820d3909410acb5e7de72`.
+- Downloaded artifact ZIP from GitHub through connected GitHub action, integrity-checked ZIP and APK archives, verified APK file type. Debug signing is for local development only. No physical watch operations performed.
+- Remaining: validate app on OPPO Reno10 5G, inspect sanitized report, obtain exact HiWatchPro APK privately for additional reverse engineering. Do not treat successful compilation as successful device interoperability.

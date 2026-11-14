@@ -31,3 +31,9 @@ Local if SDK/Gradle installed: gradle :app:testDebugUnitTest :app:assembleDebug.
 6. Inspect GATT service and characteristic table, READ_OK values and errors. Share only sanitized ZIP through a trusted channel.
 7. If necessary, separately import an H4 snoop log or inspect a source face image; neither is required for the first successful scan.
 8. No on-device validation was performed by the coding agent. Report all unexpected watch changes immediately; never test guessed BLE writes.
+
+
+## Verified build metadata (2026-11-14)
+CI run: https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620616666 — SUCCESS (Gradle `testDebugUnitTest`, `assembleDebug`, uploaded artifact).
+Artifact ID: 14124400066; file app-debug.apk; size 9,510,840 bytes; SHA-256 `f89e60bfa1d7b365e74d88e93fff7af106f59cfaf8b820d3909410acb5e7de72`.
+The output APK was downloaded from GitHub, unzipped and checked for archive integrity. No emulator or physical device execution was performed.

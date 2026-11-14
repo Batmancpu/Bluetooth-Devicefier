@@ -228,3 +228,10 @@ The parts remain downloadable artifacts from the preceding ChatGPT response, not
 ### CI failure and fix — 2026-11-14
 - First push-triggered Actions run: https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620460480 FAILED during SDK setup, before compiling, because android-actions/setup-android@v3 attempted obsolete sdkmanager package `tools`.
 - Workflow modified to find and invoke the GitHub runner's own SDK manager. Confirm the next run succeeds before advertising an APK. Source syntax/Android correctness has not yet been established by compilation; all Bluetooth hardware evidence remains prior screenshots only.
+
+
+### WatchProbe 0.1.0 build CONFIRMED — 2026-11-14
+**CI run:** https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620616666 (`43620616666`) for source/workflow commit `7dff8fea6310ab9dbeb90b1ffca53de9e3e5c361` succeeded. `:app:testDebugUnitTest`, `:app:assembleDebug`, `actions/upload-artifact` all passed. Artifact `WatchProbe-0.1.0-debug-APK` (ID `14124400066`) contains `app-debug.apk`, 9,510,840 bytes, SHA-256 `f89e60bfa1d7b365e74d88e93fff7af106f59cfaf8b820d3909410acb5e7de72`.
+**Hardware validation:** NEVER PERFORMED in this coding session; do not claim device-specific read success. User should install debug APK, grant Nearby Devices on OPPO Android 15, choose T700Pro Max manually, run GATT read-only survey, export ZIP with raw toggle OFF and provide report. Watch firmware/settings were not accessed or changed.
+**Binary availability:** HiWatchPro reference APK / split parts STILL unavailable in this session, NOT in public repository. Protocol mapping, watch-face transfer and final companion remain unimplemented. Exact vendor service UUID ends in cca9d.
+**Next action:** Get sanitized device report first; analyze and document what was actually read, then privately obtain fingerprint-matching original APK if deep reverse engineering is needed. Continue updating project docs plus this prompt in each substantive commit.

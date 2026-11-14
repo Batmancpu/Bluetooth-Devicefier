@@ -14,7 +14,7 @@ The current deliverable is a **comprehensive, one-time Android diagnostic/resear
 
 ## Current status
 
-- Android **WatchProbe 0.1.0** diagnostic source and GitHub Actions APK build workflow were added on 2026-11-14. The GitHub Actions build must be verified before claiming an installable APK is available.
+- Android **WatchProbe 0.1.0** diagnostic source and GitHub Actions APK build workflow were added on 2026-11-14. GitHub Actions build and unit tests succeeded for the initial debug APK (run 43620616666). Download the ZIP from the run artifact.
 - The app is read-only: scan, GATT discovery, unencrypted reads, metadata-only H4 btsnoop import, local image inspection, ZIP export; no device writes, bonding, notifications, OTA/DFU, or firmware actions.
 - The proprietary HiWatchPro APK is not accessible in this new session or committed; its deeper protocol analysis is still pending.
 - The user's original HiWatchPro APK was supplied in the conversation, inspected at a basic archive/string level, and fingerprinted. The APK itself is **not committed**: the repository is public, the file is 106.66 MiB (above GitHub's 100 MiB regular Git object limit), and it is a proprietary app binary. See [docs/APK_REFERENCE.md](docs/APK_REFERENCE.md).
@@ -51,3 +51,6 @@ The repo name is **Bluetooth-Devicefier**. The proposed diagnostic app name **Wa
 GitHub Actions > **Build WatchProbe diagnostic APK** runs on pushes to main affecting app/build files and can be started manually. After a successful run, download the **WatchProbe-0.1.0-debug-APK** artifact ZIP and install `app-debug.apk` on Android. Debug builds are development-only; do not confuse with a production signed companion. On-device BLE testing has not been done by this agent.
 
 See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for scope, safety details, report contents, limitations and test plan.
+
+
+**Verified build:** [GitHub Actions run 43620616666](https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620616666) succeeded, including `testDebugUnitTest` and `assembleDebug`. The debug APK is 9,510,840 bytes; SHA-256: `f89e60bfa1d7b365e74d88e93fff7af106f59cfaf8b820d3909410acb5e7de72`. This is a developer test build, not yet validated on the physical watch.

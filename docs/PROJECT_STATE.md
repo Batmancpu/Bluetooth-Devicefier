@@ -155,3 +155,11 @@ Do not silently fill these gaps. Record evidence and confidence as it becomes av
 ### CI repair 1 — 2026-11-14
 - Initial GitHub Actions run 43620460480 failed before compilation in android-actions/setup-android@v3 because sdkmanager rejected obsolete `tools` package. This was workflow infrastructure, not a Kotlin compile result.
 - Replaced setup-android action with direct runner command-line SDK installer. Re-run triggered on main by workflow change; results must be verified independently.
+
+
+### Verified CI artifact — 2026-11-14
+- First CI run 43620460480 failed only during SDK setup. Follow-up run [43620616666](https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620616666) on commit `7dff8fea6310ab9dbeb90b1ffca53de9e3e5c361` completed SUCCESS.
+- Gradle ran `:app:testDebugUnitTest`, `:app:assembleDebug`, plus APK upload. Build was successful with 41 actionable tasks, 41 executed.
+- Artifact name: `WatchProbe-0.1.0-debug-APK`; artifact ID `14124400066`. Contains `app-debug.apk` (9,510,840 bytes), SHA-256 `f89e60bfa1d7b365e74d88e93fff7af106f59cfaf8b820d3909410acb5e7de72`. Downloaded and verified ZIP integrity and inner APK ZIP structure. Artifact retention: 30 days per workflow.
+- This proves build/packaging and local unit-test execution, NOT that Bluetooth scanning, GATT reads, permission UI or watch safety have been tested on the physical watch.
+- No physical watch operations were performed. User should install APK, run scan/read, and provide REDACTED ZIP for evidence-based next phase.
