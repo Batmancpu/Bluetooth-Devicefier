@@ -38,10 +38,14 @@ Input: private sanitized WatchProbe report generated 2026-11-14 23:17 Asia/Kolka
 The WatchProbe report does not include proprietary command packets and the original HiWatchPro 1.3.79 APK bytes are not accessible in this agent's current conversation/container/Library. Historical metadata and a SHA fingerprint do not substitute for real static reverse-engineering. The user may reattach that original exact APK privately to the conversation; do not put proprietary APK into public repo. Do not claim protocol parity from published materials about other watches merely because they share one BLE UUID.
 
 ## Build
-CI builds two modules and verifies both with Android apksigner, zipalign and aapt:
-- :app:assembleDebug → existing WatchProbe, package io.github.batmancpu.watchprobe.
-- :companion:assembleDebug → new functional companion, package io.github.batmancpu.watchcompanion.
+CI builds only the companion module and verifies its APK with Android apksigner, zipalign and aapt:
+- :companion:testDebugUnitTest and :companion:assembleDebug → T700 Companion, package io.github.batmancpu.watchcompanion.
+- The old WatchProbe :app module was retired from main on 2026-11-15. Its source remains in Git history, not the active build.
 No emulator/hardware execution is available in the CI.
 
 ## Verified build artifact
 CI run 43623972393 PASSED on 2026-11-14. Companion artifact ID 14125256837, `companion-debug.apk`, 9,494,460 bytes, SHA256 `8d8f6e160cd03d285009998876f84a4ebf2769a6efae59ad08789bb44f8c47a4`. Android apksigner v2 verifies; zipalign and aapt check pass. SDK min 26, target 35, version 0.2.0. This is a test build with ephemeral Android debug signing; upgrades to later builds may require uninstalling the previous debug variant. Not physically executed yet.
+
+
+## 2026-11-15: WatchProbe retired
+WatchProbe's installed-phone purpose ended with the sanitized report. User may uninstall it. Only T700 Companion remains in main/CI. No watch firmware or app controls were changed by this cleanup; original companion 0.2.0 APK remains a separately signed debug test build. See D-014.

@@ -79,3 +79,7 @@ Do not claim that a one-shot diagnostic app can obtain literally every hidden de
 
 ## 2026-11-14 Stage-two update
 After WatchProbe installed successfully, user exported sanitized ZIP. Physical watch verified battery 100%, LY716 manufacturer string, V09708 firmware, exact two vendor notify/write channel pairs. User authorized development of permanent functional app and deferral of aesthetics. New `companion` module version 0.2.0 uses separate app identity, safe standard GATT reads and optional explicit CCCD notification monitor; watch commands/advanced features not yet enabled. Full details docs/COMPANION_STAGE1.md. Original HiWatchPro APK binary was referenced from older session by hash but is not accessible to current agent. Build/test and physical validation awaited.
+
+
+## 2026-11-15: WatchProbe retirement request
+User said: "If watch probe has no issue, no use, then just burn it. Why do I even need it?" The one-time diagnostic export succeeded and physical watch data is documented. Repository cleaned to companion-only active module and CI. User can uninstall WatchProbe locally. No other personal data or the original HiWatchPro APK was removed from the repository (not present).

@@ -74,3 +74,7 @@ This file records durable choices. Add new decisions with date, status, rational
 
 ### D-013: Explicit CCCD-only passive observation is permitted (2026-11-14)
 **Status:** Accepted under separate opt-in. **Decision:** A user-tapped control may subscribe to exactly the observed NOTIFY characteristics using standard BLE CCCD value 01 00, without sending guessed application payloads, changing watch settings or initiating bonding. Observe only the selected watch. **Rationale:** Enables limited safe progression on unknown protocol, with no unsolicited vendor writes. **Consequence:** Log and export watch-origin responses with privacy safeguards; review any future command separately with protocol evidence, exact bytes, reversibility and failure mode.
+
+
+### D-014: Retire WatchProbe from active source and build (2026-11-15)
+**Status:** Accepted; directly requested by the user. **Decision:** Delete the diagnostic-only `app/` module from main, remove its APK artifact from ongoing CI, and make `companion/` the sole built Android module. Preserve past research results in sanitized documentation and original code in Git history; do not rewrite repository history. **Rationale:** The watch survey is complete and WatchProbe is not needed to run the standalone companion. **Consequence:** User can uninstall WatchProbe from their phone after keeping the report; the companion still lacks protocol evidence for proprietary functions. A new diagnostic app should not be required unless specifically justified and approved.

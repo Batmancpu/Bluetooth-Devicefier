@@ -1,3 +1,7 @@
+# Historical document: WatchProbe retired on 2026-11-15
+
+The WatchProbe source and Gradle module were removed from active main at user's direction; use this file only as historical architectural and safety reference. Current Android code is in `companion/`, and current build instructions are in `docs/COMPANION_STAGE1.md`.
+
 # WatchProbe 0.1.0 — technical implementation and test plan
 
 ## Delivered source

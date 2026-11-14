@@ -1,3 +1,9 @@
+# CURRENT PRIORITY (overrides older historical handoffs)
+
+## 2026-11-15 — WatchProbe retired; companion only
+**Current goal:** Maintain T700 Companion as the sole Android application. After the user's successful physical WatchProbe read-only survey, WatchProbe is no longer necessary on their phone. User explicitly requested its retirement/removal. The former `app/` module and its CI build/artifact have been removed from main; its original source remains recoverable only through Git history. Do not recreate WatchProbe or require another diagnostic installation unless new evidence makes that necessary and the user agrees. The **sanitized watch findings** (8 GATT service entries; 24 characteristics; LY716; V09708; MI RC; battery 100% at inspection; proprietary vendor notify/write endpoints) remain documented in `docs/DEVICE_PROFILE.md`. The private WatchProbe ZIP has not been committed. Future builds target only `:companion:testDebugUnitTest` and `:companion:assembleDebug`. Watch-specific advanced command support is still blocked by absent verified protocol traces/accessible original HiWatchPro APK; never send guessed vendor commands. Signing remains ephemeral debug signing until a permanent release key is securely configured. Physical T700 Companion v0.2.0 operation has not been verified by the agent. Repository cleanup itself cannot uninstall an app from the user's phone; user may remove WatchProbe through Android Settings > Apps.
+
+## Historical continuation notes (do not interpret as current deployment instructions)
 # NEXT AGENT PROMPT — Bluetooth-Devicefier / T700 Pro Max
 
 You are inheriting this project from a previous AI agent. The user deliberately maintains project memory in this repository because chat context can expire and AI agents can change. **The repository is the source of truth.** Continue from the exact recorded state; do not restart the conversation or ask the user to repeat facts already documented.

@@ -1,61 +1,24 @@
-# Bluetooth-Devicefier
+# T700 Companion — Bluetooth-Devicefier
 
-**Purpose:** identify and reverse-engineer the Bluetooth behavior of the user's T700 Pro Max smartwatch so a technically accurate, privacy-first replacement companion can eventually be built.
+**Active deliverable:** A privacy-first Android companion for the user's **T700 Pro Max** smartwatch. This repository builds **one Android APK**, the `companion/` module (`io.github.batmancpu.watchcompanion`). Functional BLE work comes first; visual refinement comes later.
 
-The current deliverable is a **comprehensive, one-time Android diagnostic/research application**. It is not yet the final always-on smartwatch companion. The research app should collect the maximum useful device, BLE, protocol and watch-face evidence in one controlled workflow, then export a handoff package for protocol analysis.
+## Current state — 2026-11-15
 
-## Start here (mandatory for every AI agent)
+- **T700 Companion 0.2.0** is implemented, compiled, unit-tested and signature-verified in [GitHub Actions run 43623972393](https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43623972393). It supports T700-only scanning/manual connection, standard battery and device-info reads, and explicit opt-in temporary notifications on watch-observed CCCD paths, with private-by-default ZIP export. Its behavior on this particular watch is not yet independently verified.
+- **WatchProbe is retired.** It already gathered a successful watch diagnostic ZIP, which confirmed 8 GATT service entries, 24 characteristics, manufacturer string LY716, firmware V09708 and observed vendor endpoints. At the user's request, its `app/` module and GitHub Actions APK artifact were removed from the active repository on 2026-11-15. Its source remains in Git history. The user may uninstall WatchProbe from their phone; the sanitized findings remain in [device profile](docs/DEVICE_PROFILE.md).
+- **Unsupported until validated:** notification forwarding, fitness and health sync, alarms, watch faces, proprietary control commands. The protocol cannot be safely guessed from GATT UUIDs alone. The original proprietary HiWatchPro APK binary is not present in the active repository or agent environment.
+- **Safety:** No firmware flashing, OTA/DFU, reset, guessed proprietary write packets, automatic bonding, background tracking or network permission.
 
-1. Read [AGENTS.md](AGENTS.md) before doing any work.
-2. Read [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) for the latest state and next action.
-3. Read [docs/DEVICE_PROFILE.md](docs/DEVICE_PROFILE.md) and [docs/APK_REFERENCE.md](docs/APK_REFERENCE.md).
-4. Read [docs/CONVERSATION_HANDOFF.md](docs/CONVERSATION_HANDOFF.md) for user intent, decisions and conversation history.
-5. Read the latest entry in [docs/SESSION_LOG.md](docs/SESSION_LOG.md).
+## Build only the companion
 
-## Current status
+```bash
+gradle :companion:testDebugUnitTest :companion:assembleDebug
+```
 
-- Android **WatchProbe 0.1.0** diagnostic source and GitHub Actions APK build workflow were added on 2026-11-14. GitHub Actions build and unit tests succeeded for the initial debug APK (run 43620616666). Download the ZIP from the run artifact.
-- The app is read-only: scan, GATT discovery, unencrypted reads, metadata-only H4 btsnoop import, local image inspection, ZIP export; no device writes, bonding, notifications, OTA/DFU, or firmware actions.
-- The proprietary HiWatchPro APK is not accessible in this new session or committed; its deeper protocol analysis is still pending.
-- The user's original HiWatchPro APK was supplied in the conversation, inspected at a basic archive/string level, and fingerprinted. The APK itself is **not committed**: the repository is public, the file is 106.66 MiB (above GitHub's 100 MiB regular Git object limit), and it is a proprietary app binary. See [docs/APK_REFERENCE.md](docs/APK_REFERENCE.md).
-- The user has already used nRF Connect for Mobile and supplied screenshots showing the watch's BLE advertising record and primary GATT services.
+GitHub Actions builds, validates with Android `apksigner`/`zipalign`/`aapt`, and uploads the artifact **T700-Companion-0.2.0-debug-APK**. Download the artifact ZIP and install its `companion-debug.apk` file. Debug APK signatures may vary across CI runs, so upgrades can require uninstalling the old debug APK; stable release signing is a separate task.
 
-## Non-negotiable constraints
+## Handoff and evidence
 
-- Do not brick, reset, reflash, unlock, or otherwise risk the watch.
-- No firmware, bootloader, DFU, OTA, factory-reset or undocumented destructive commands.
-- Do not invent chipset identity or protocol compatibility from a UUID or a library bundled in the APK.
-- No USB cable or desktop workflow may be assumed for the user's device-side steps; the user has an OPPO Reno10 5G running Android 15 / ColorOS 15 and can work from Android plus GitHub.
-- Preserve one primary branch, **main**. Do not create unnecessary long-lived branches.
-- Keep the repository's documentation current so another AI can continue without the previous chat.
-- Do not commit the proprietary APK, Bluetooth MAC address, captured personal notifications, snoop logs containing private data, credentials or signing keys to this public repository.
+Read [AGENTS.md](AGENTS.md) → [NEXT_AGENT_PROMPT.md](NEXT_AGENT_PROMPT.md) → [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) → [docs/COMPANION_STAGE1.md](docs/COMPANION_STAGE1.md). See [docs/DEVICE_PROFILE.md](docs/DEVICE_PROFILE.md) for physical watch evidence and [docs/DECISIONS.md](docs/DECISIONS.md) for accepted safety decisions.
 
-## Documentation map
-
-- [AGENTS.md](AGENTS.md): mandatory agent operating rules.
-- [agent.md](agent.md): case-compatible pointer to AGENTS.md.
-- [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md): current objective, status, blockers and next action.
-- [docs/DEVICE_PROFILE.md](docs/DEVICE_PROFILE.md): verified watch and BLE observations.
-- [docs/APK_REFERENCE.md](docs/APK_REFERENCE.md): supplied APK fingerprint and verified archive findings.
-- [docs/RESEARCH_AND_REQUIREMENTS.md](docs/RESEARCH_AND_REQUIREMENTS.md): diagnostic-app requirements and research plan.
-- [docs/DECISIONS.md](docs/DECISIONS.md): accepted decisions and rejected assumptions.
-- [docs/CONVERSATION_HANDOFF.md](docs/CONVERSATION_HANDOFF.md): user prompts reproduced where available and assistant conclusions summarized.
-- [docs/SESSION_LOG.md](docs/SESSION_LOG.md): chronological work log.
-- [docs/EVIDENCE/NRF_CONNECT_OBSERVATIONS.md](docs/EVIDENCE/NRF_CONNECT_OBSERVATIONS.md): screenshot transcription with private address redacted.
-- [docs/EVIDENCE/APK_STORAGE.md](docs/EVIDENCE/APK_STORAGE.md): why the APK is not in this public repository and how to supply it safely.
-
-The repo name is **Bluetooth-Devicefier**. The proposed diagnostic app name **WatchProbe** is provisional and can be changed by the user.
-
-
-## Building WatchProbe
-GitHub Actions > **Build WatchProbe diagnostic APK** runs on pushes to main affecting app/build files and can be started manually. After a successful run, download the **WatchProbe-0.1.0-debug-APK** artifact ZIP and install `app-debug.apk` on Android. Debug builds are development-only; do not confuse with a production signed companion. On-device BLE testing has not been done by this agent.
-
-See [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) for scope, safety details, report contents, limitations and test plan.
-
-
-**Verified build:** [GitHub Actions run 43620616666](https://github.com/Batmancpu/Bluetooth-Devicefier/actions/runs/43620616666) succeeded, including `testDebugUnitTest` and `assembleDebug`. The debug APK is 9,510,840 bytes; SHA-256: `f89e60bfa1d7b365e74d88e93fff7af106f59cfaf8b820d3909410acb5e7de72`. This is a developer test build, not yet validated on the physical watch.
-
-## Functional companion foundation (v0.2.0)
-The Android `companion/` module is a separate **T700 Companion** APK, not an update to WatchProbe. It is focused on reliable BLE discovery/connection and standard battery/device-information reads on a physically surveyed T700Pro Max. A separate user-tapped observation action enables standard BLE notifications on the exact observed battery, vendor `…CCA9D/003` and `FFFF/FF11` channels (CCCD only). No guessed vendor commands, watch-face transfer or firmware modifications are sent.
-
-Run `gradle :companion:testDebugUnitTest :companion:assembleDebug`; GitHub Actions builds and validates both APKs. Install the **companion APK**, not the ZIP artifact, and manually connect the T700Pro Max. See `docs/COMPANION_STAGE1.md` for exact supported and unsupported functionality, privacy/export behavior and test steps. On-device companion execution remains unverified until the user tests it.
+The original WatchProbe findings are historical research, not a dependency for the companion app at runtime. Private watch captures and HiWatchPro proprietary binaries must not be committed to this public repository.
