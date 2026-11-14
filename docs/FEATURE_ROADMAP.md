@@ -49,3 +49,7 @@ Every command must have: watch-specific source evidence; exact bytes/parameters/
 7. Pick a local image and export offline PNG; inspect it separately. Watch face on watch must remain untouched.
 8. Export research ZIP with raw toggle OFF initially; use raw ON only when specifically deciding to share bounded watch-origin bytes privately, because even watch-only payloads may encode personal information.
 9. Report screen/error/feature behavior. Never test firmware/OTA/reset or undocumented writes.
+
+
+### v0.3.0 release verification — 2026-11-15
+GitHub Actions run 43634806135 (source commit 5086f0d5fff1b2942098c51514051cc6e829c8dc) completed SUCCESS: :companion:testDebugUnitTest, :companion:assembleDebug, Android apksigner v2, zipalign, aapt metadata. Package io.github.batmancpu.watchcompanion, version 0.3.0/versionCode 3, minSdk 26, targetSdk 35, label T700 Companion. Artifact ID 14130235385, name T700-Companion-0.3.0-debug-APK. Extracted companion-debug.apk is 9,511,020 bytes; SHA-256 6c00c77fa0cf89e910e991d1c972a8a405e7eef4f537e53b74b60b4c616437a5. Both artifact ZIP and APK archive integrity passed. This is still a CI debug-signed APK, may require uninstall of previous CI-signed 0.2.0 due signing certificate mismatch. Actual v0.3.0 execution on watch/phone remains pending user verification. No developer-side watch operations performed.
