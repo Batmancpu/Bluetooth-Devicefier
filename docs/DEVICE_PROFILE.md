@@ -77,7 +77,7 @@ The source of current facts is the user's two nRF Connect screenshots in the ori
 Do not add a guessed chipset, board name, display controller, resolution, RAM, flash size or firmware identity without evidence.
 
 ## 2026-11-14 WatchProbe physical watch report (verified on this device)
-User uploaded private sanitized `WatchProbe-20261114-2317.zip` (NOT committed or mirrored to public GitHub). Device T700Pro Max on OPPO CPH2531 Android SDK 35, GATT discovery/reads completed without writes or pairing. RSSI -70 dBm on sampled scan. Eight reported GATT service entries, 23 characteristic entries. Advertising service FFFF, manufacturer-company ID 0x344C (does not prove chipset).
+User uploaded private sanitized `WatchProbe-20261114-2317.zip` (NOT committed or mirrored to public GitHub). Device T700Pro Max on OPPO CPH2531 Android SDK 35, GATT discovery/reads completed without writes or pairing. RSSI -70 dBm on sampled scan. Eight reported GATT service entries, 24 characteristic entries. Advertising service FFFF, manufacturer-company ID 0x344C (does not prove chipset).
 - Device Information 180A: 2A29 manufacturer **LY716**, 2A26 firmware **V09708**, 2A27 hardware **01**, 2A24 model **MI RC**; 2A28 opaque bytes must not be interpreted without protocol evidence. Duplicate 180A service entries reported.
 - Battery 180F characteristic 2A19: **100%** at inspection, READ+NOTIFY, CCCD 2902.
 - Proprietary service **6e400001-b5a3-f393-e0a9-e50e24dcca9d**: `…0002…cca9d` WRITE and WRITE_NO_RESPONSE; `…0003…cca9d` NOTIFY with CCCD 2902. This is NOT conventional Nordic NUS UUID ending …cca9e.

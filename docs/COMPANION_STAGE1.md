@@ -42,3 +42,6 @@ CI builds two modules and verifies both with Android apksigner, zipalign and aap
 - :app:assembleDebug → existing WatchProbe, package io.github.batmancpu.watchprobe.
 - :companion:assembleDebug → new functional companion, package io.github.batmancpu.watchcompanion.
 No emulator/hardware execution is available in the CI.
+
+## Verified build artifact
+CI run 43623972393 PASSED on 2026-11-14. Companion artifact ID 14125256837, `companion-debug.apk`, 9,494,460 bytes, SHA256 `8d8f6e160cd03d285009998876f84a4ebf2769a6efae59ad08789bb44f8c47a4`. Android apksigner v2 verifies; zipalign and aapt check pass. SDK min 26, target 35, version 0.2.0. This is a test build with ephemeral Android debug signing; upgrades to later builds may require uninstalling the previous debug variant. Not physically executed yet.
