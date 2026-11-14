@@ -52,3 +52,5 @@ The nRF Connect screenshots showed the advertised name, BLE LE-only/legacy adver
 
 ### Next action
 After verifying this handoff commit on main, the next agent should obtain the APK privately and perform focused static analysis before designing the comprehensive one-shot diagnostic app. Do not ask the user to install a sequence of third-party test apps.
+
+**Handoff documentation commit:** `581ba62ad770e2420c838ad01c8a806eb7ec9c4b` (verified on `main`; see GitHub commit history).
