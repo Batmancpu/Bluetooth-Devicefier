@@ -139,3 +139,14 @@ Do not silently fill these gaps. Record evidence and confidence as it becomes av
 - Added `NEXT_AGENT_PROMPT.md` as the canonical copy-ready prompt for the next AI. `AGENTS.md` now requires refreshing it in the same commit as every substantive change, alongside project state/session log updates.
 - Added `docs/EVIDENCE/APK_PARTS.md`, `docs/EVIDENCE/APK_PARTS.json` and `tools/reassemble_HiWatchPro.py`.
 - No Android diagnostic app has been implemented; no Bluetooth or firmware operation was performed.
+
+
+## 11. Implementation update — 2026-11-14, WatchProbe 0.1.0
+- First native Android Kotlin/Jetpack Compose project added under `app/`, with Gradle 8.9 / AGP 8.7.3 / Kotlin 2.0.21 and GitHub Actions debug APK builder.
+- Phone-only workflow: permission-gated BLE discovery, manual watch selection, GATT service/characteristic/descriptor enumeration, READ-only unencrypted characteristic reads, local status and evidence.
+- Optional local metadata analysis for uncompressed H4 btsnoop (no captured payload retained/exported), and local image bounds inspection (no watch-face upload).
+- ZIP research export includes environment, device, advertising, GATT, safe readable values, imported capture summary, image input dimensions, APK reference, diagnostics, readable Markdown report and privacy notes.
+- Default ZIP redacts Bluetooth addresses, raw advertising/manufacturer bytes and opaque characteristic values. User may explicitly enable local raw export and must inspect before sharing.
+- No Android binary or real-device test had been verified when this code was first committed; GitHub Actions must establish build status. No watch operations were performed by this agent.
+- The original HiWatchPro binary or split parts were not present in the current session; static reverse engineering is a remaining blocker, but does not block baseline GATT diagnostics.
+- Next: verify CI compile/unit tests and artifact, fix failures if any, install/test on OPPO Reno10 5G and export the first watch report. Then use verified report and privately provided exact APK/captures to map watch-specific protocol.

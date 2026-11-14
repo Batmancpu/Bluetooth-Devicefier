@@ -84,3 +84,17 @@ After verifying this handoff commit on main, the next agent should obtain the AP
 
 ### Next action
 User should attach both part files to the next coding agent. If the parts are to be stored in GitHub, the user must first make the repository private and explicitly authorize it; the agent must use Git CLI because each part exceeds GitHub's 25 MiB browser-upload limit. Then reconstruct with `tools/reassemble_HiWatchPro.py`, verify the fingerprint and inspect the APK. Keep `NEXT_AGENT_PROMPT.md` current in the same commit as every substantive change.
+
+
+## 2026-11-14 — WatchProbe first Android implementation
+**Task:** Build safe, single-purpose diagnostic APK source directly in main with automated GitHub Actions packaging.
+
+**Files:** `settings.gradle.kts`, `build.gradle.kts`, `gradle.properties`, `app/build.gradle.kts`, `app/src/main/AndroidManifest.xml`, `app/src/main/java/io/github/batmancpu/watchprobe/{MainActivity,BleSurvey,BtsnoopParser,ReportWriter}.kt`, `app/src/test/java/io/github/batmancpu/watchprobe/BtsnoopParserTest.kt`, `.github/workflows/android.yml`, `docs/IMPLEMENTATION.md`; updated README, DECISIONS, PROJECT_STATE, NEXT_AGENT_PROMPT and this log in the SAME commit.
+
+**Safety:** No BLE hardware accessed by this coding session. App contains no characteristic/descriptor write, CCCD subscription, pairing request, OTA/DFU, factory reset or firmware update API. Local report export redacts identifiers/opaque payloads unless explicitly opted in.
+
+**Validation at source-commit time:** Source review only; GitHub Actions compile, unit test and APK output pending. UI, permissions and physical watch not tested on hardware; do not claim success before CI proves it.
+
+**Remaining:** HiWatchPro exact proprietary APK or split parts absent from this chat session; deep static protocol research pending. User must perform first on-device scan/read and supply sanitized report; maintain safety gates.
+
+**Next action:** Verify GitHub Actions workflow, download APK only if the build succeeds, test on the specified OPPO handset, inspect exported ZIP without publishing device addresses.

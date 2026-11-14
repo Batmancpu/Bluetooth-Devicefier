@@ -61,3 +61,10 @@ This file records durable choices. Add new decisions with date, status, rational
 **Decision:** If APK static analysis and direct GATT discovery do not reveal the protocol, investigate Android's built-in Bluetooth HCI snoop logging and optionally build capture import into the diagnostic tool.  
 **Rationale:** One app cannot passively inspect another app's private GATT calls through ordinary Android APIs.  
 **Consequence:** Be transparent about any system-level capture/export step that cannot be fully automated from a normal app.
+
+
+### D-011: Use a standalone native Compose survey, no device mutations (2026-11-14)
+**Status:** Accepted for the initial 0.1.0 implementation.
+**Decision:** Use Kotlin + Compose with local-only session state, strict scan/discover/un-encrypted-READ BLE operations, manual device choice, optional metadata-only H4 btsnoop file summary, local image-dimension inspection, and ZIP export. Explicit opt-in is required for raw identifiers and opaque GATT values in exports. No internet permission, background service or pairing.
+**Rationale:** One deterministic inspect-and-export tool minimizes unknown effects on the watch and creates actionable device evidence. More advanced protocol work requires the proprietary APK or controlled captures and must not be guessed.
+**Consequence:** This version does not decode proprietary commands, inspect another app's memory/traffic automatically, subscribe to characteristics, or upload watch faces. Actual device validation remains necessary.
