@@ -83,3 +83,7 @@ After WatchProbe installed successfully, user exported sanitized ZIP. Physical w
 
 ## 2026-11-15: WatchProbe retirement request
 User said: "If watch probe has no issue, no use, then just burn it. Why do I even need it?" The one-time diagnostic export succeeded and physical watch data is documented. Repository cleaned to companion-only active module and CI. User can uninstall WatchProbe locally. No other personal data or the original HiWatchPro APK was removed from the repository (not present).
+
+
+## 2026-11-15: Complete-feature implementation request
+User rejects tiny updates and explicitly requests a proper plan and substantial functional features: clock sync, watch faces, messages, phone calls, telemetry removal, health and all other companion capabilities. Provided latest T700 Companion ZIP; verified connected, battery and identity, CCCDs and two 20-byte proprietary watch-origin packets. HiWatchPro APK binary inaccessible in current session; its historical fingerprint retained. Respond with evidenced stages, implement safe phone-side event detection, offline face prep and guided watch packet correlation now, do NOT claim outbound watch features implemented until opcode proven. v0.3.0 source created, build/test to be verified. See FEATURE_ROADMAP.md.

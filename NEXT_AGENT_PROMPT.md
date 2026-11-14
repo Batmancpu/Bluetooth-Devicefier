@@ -1,3 +1,11 @@
+# CURRENT TOP PRIORITY 2026-11-15: T700 Companion 0.3.0 feature lab
+
+User wants substantial progress including time sync, calls, messages, health/watch faces, explicitly asks to test and implement. We inspected private `/mnt/data/T700-Companion-20261115-0109.zip` (1.5KB): watch is physically CONNECTED, GATT 8 services, battery 100, manufacturer LY716, firmware V09708, hardware 01, model MI RC. All 3 CCCD subscribe operations succeeded, and 2 events of 20 bytes were received on `6e400003-b5a3-f393-e0a9-e50e24dcca9d`; raw content OFF, zero vendor writes. Session report shows user repeatedly tapped scan while Bluetooth OFF and scan in progress; improve UX. Original HiWatchPro 1.3.79 SHA d3d724530619627c563ec94998c0fcf0e9c15eedcf457603a2fbc67c2cf598fc is known from older notes but exact binary is NOT present in current container, conversation uploads or Files Library. Do NOT claim static analysis of its code in this session.
+
+New v0.3.0 code: separate `PhoneNoticeLab.kt` with Android NotificationListenerService only for WhatsApp/SMS/Telegram/known dialers, manual system permission and opt-in switch, metadata counts only; `FaceLab.kt` selects/crops local image into user-sized offline PNG, no upload; `CompanionActivity.kt` new integrated test workbench with clock check and start/end feature experiments correlated against watch packets and phone notifications and ZIP report; `WatchBleClient.kt` scan debounce and repeated-connect safeguards. `companion/build.gradle.kts` version bump to 0.3.0, AndroidManifest registers listener; JUnit tests in FeatureLabTest.kt; GitHub Actions artifacts rename 0.3.0. Build/status **PENDING at source authoring**, verify CI and handle errors before delivering APK. No app-level BLE writes, time sync, forwarded messages, calls TO watch, health/steps, or faces transferred; require evidence. The previous v0.2.0 APK is CI verified and physically tested only via user's ZIP. See docs/FEATURE_ROADMAP.md for ordered comprehensive plan and exact v0.3 tests. WatchProbe retired from main, don't restore. Keep docs/PROJECT_STATE and docs/SESSION_LOG updated with each code commit.
+
+---
+
 # CURRENT PRIORITY (overrides older historical handoffs)
 
 ## 2026-11-15 — WatchProbe retired; companion only

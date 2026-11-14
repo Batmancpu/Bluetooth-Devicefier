@@ -49,3 +49,7 @@ CI run 43623972393 PASSED on 2026-11-14. Companion artifact ID 14125256837, `com
 
 ## 2026-11-15: WatchProbe retired
 WatchProbe's installed-phone purpose ended with the sanitized report. User may uninstall it. Only T700 Companion remains in main/CI. No watch firmware or app controls were changed by this cleanup; original companion 0.2.0 APK remains a separately signed debug test build. See D-014.
+
+
+## 2026-11-15 v0.3.0 functional feature lab
+The user tested v0.2.0 successfully (8 services, three CCCD subscriptions and two 20-byte packets); see docs/FEATURE_ROADMAP.md. The new build introduces Android-side opt-in WhatsApp/SMS/phone notification metadata counter, no personal notification content or watch-forwarding; guided feature-test time windows; offline face PNG renderer (not a watch-compatible package); phone clock comparison input (does not sync watch); scan debouncing/Bluetooth enable UX; improved structured ZIP export. All unverified proprietary commands and OTA remain disabled. Build and physical testing v0.3.0 pending.

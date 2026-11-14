@@ -85,3 +85,7 @@ User uploaded private sanitized `WatchProbe-20261114-2317.zip` (NOT committed or
 - HID 1812: encrypted/protected and/or failed standard reads; no input report semantics established, don't initiate pairing automatically.
 - Protocol events file empty, no snoop capture imported, private raw evidence OFF. Thus no proprietary opcode or response payload captured. No direct evidence yet for steps/health/calls/notifications-to-watch/time sync/find-device/faces.
 - External research: 2022 FocusFit Pro-Y68 reverse-engineering at https://xor.co.za/post/2022-11-30-hacking-smartwatch/ also reports a `…cca9d` service, but is NOT proof of identical firmware/protocol or chipset in T700Pro Max.
+
+
+## 2026-11-15: Active companion 0.2.0 physically tested
+Source: private user export `T700-Companion-20261115-0109.zip`. Watch connection=Connected, service count=8, battery=100%, manufacturer LY716, firmware V09708, hardware 01, model MI RC. App subscribed successfully to CCCDs 2A19, 6e400003-...-cca9d and FF11 (via Android GATT). Received 2 notifications of 20 bytes each on 6e400003-...-cca9d; raw evidence omitted, **no protocol opcode/meaning known**, no vendor writes sent. Do not infer watch time sync/notifications-to-watch/health/watch faces from these events. No phone-side screen or hardware manipulations were done by development agent.

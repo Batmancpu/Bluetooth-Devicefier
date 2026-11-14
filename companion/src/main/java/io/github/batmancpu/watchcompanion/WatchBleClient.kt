@@ -104,7 +104,10 @@ class WatchBleClient(
     }
 
     fun scan() {
-        stopScan()
+        if (scanner != null) {
+            log("A scan is already in progress; wait for results.")
+            return
+        }
         targets.clear()
         onTargets(emptyList())
         if (adapter?.isEnabled != true) {
@@ -132,6 +135,10 @@ class WatchBleClient(
     }
 
     fun connect(target: WatchTarget) {
+        if (gatt != null && state.connection == "Connected") {
+            log("Already connected. Disconnect before selecting a different device.")
+            return
+        }
         stopScan()
         disconnect()
         val thisSerial = serial
